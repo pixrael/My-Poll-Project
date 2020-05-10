@@ -11,18 +11,25 @@ class ImageSnippet {
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+
+  isSaveButtonDisable = true;
+
   artItems = [{
     path: 'assets/img/angular.png', title: 'My Angular logo',
-    date: '4/7/2017', author: 'Set'
+    date: '4/7/2017', author: 'Set',
+    uploaded: false
   }, {
     path: 'assets/img/angular.png', title: 'My Angular logo2',
-    date: '4/7/2017', author: 'Set2'
+    date: '4/7/2017', author: 'Set2',
+    uploaded: false
   }, {
     path: 'assets/img/angular.png', title: 'My Angular logo3',
-    date: '4/7/2017', author: 'Set3'
+    date: '4/7/2017', author: 'Set3',
+    uploaded: false
   }, {
     path: 'assets/img/angular.png', title: 'My Angular logo4',
-    date: '4/7/2017', author: 'Set4'
+    date: '4/7/2017', author: 'Set4',
+    uploaded: false
   }];
 
 
@@ -44,12 +51,20 @@ export class DashboardComponent implements OnInit {
     const onLoadCallback = (event: any) => {
       const selectedFile = new ImageSnippet(event.target.result, file);
       this.artItems[itemIndex].path = selectedFile.src;
+      this.artItems[itemIndex].uploaded = true;
+
+      this.updateSaveButtosState();
+
       reader.removeEventListener('load', onLoadCallback);
     };
 
     reader.addEventListener('load', onLoadCallback);
 
     reader.readAsDataURL(file);
+  }
+
+  updateSaveButtosState() {
+    this.isSaveButtonDisable = this.artItems.filter(artItem => artItem.uploaded).length < 2;
   }
 
   startAnimationForLineChart(chart) {

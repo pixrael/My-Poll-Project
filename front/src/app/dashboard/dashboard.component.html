@@ -1,6 +1,6 @@
 <div class="main-content">
-  <div class="container-fluid">
-     <!--  <div class="row"> This row will be used for the list of polls
+    <div class="container-fluid">
+        <!--  <div class="row"> This row will be used for the list of polls
           <div class="col-lg-3 col-md-6 col-sm-6">
               <div class="card card-stats">
                   <div class="card-header card-header-warning card-header-icon">
@@ -69,52 +69,53 @@
               </div>
           </div>
       </div> -->
-      <div class="row"><!-- This is the list of images  -->
-          <div class="col-md-4" *ngFor="let artItem of artItems;let artItemIndex = index;" >
-              <div class="card card-chart">
-                  <div class="card-header card-header-success upload-img-container">
-                      <div class="upload-img" id=""><img [src]="artItem.path"></div>
-                  </div>
-                  <div class="card-body">
-                      <!-- <h4 class="card-title">{{img.name}}</h4> -->
-                      <a mat-button class="nav-link" (click)="clickInputToUploadImage(artItemIndex)" href="#messages" data-toggle="tab">
-                        <i class="material-icons">code</i> Click here to upload an image
-                        <div class="ripple-container"></div>
-                    </a>
-                      <label class="image-upload-container btn btn-bwm">
-                        <span>Select Image</span>
-                        
-                        <input [id]="'inpt' + artItemIndex"
-                               type="file"
-                               accept="image/*"
-                               (change)="processFile(artItemIndex)">
-                      </label>
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Title">
-                      </mat-form-field>
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Author">
-                      </mat-form-field>
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Date">
-                      </mat-form-field>
-                      <!-- <p class="card-category">
+        <div class="row">
+            <!-- This is the list of images  -->
+            <div class="col-md-4" *ngFor="let artItem of artItems;let artItemIndex = index;">
+                <div class="card card-chart">
+                    <div class="card-header card-header-success upload-img-container">
+                        <div class="upload-img" id=""><img [src]="artItem.path"></div>
+                    </div>
+                    <div class="card-body">
+                        <!-- <h4 class="card-title">{{img.name}}</h4> -->
+                        <a mat-button class="nav-link" (click)="clickInputToUploadImage(artItemIndex)" href="#messages"
+                            data-toggle="tab">
+                            <i class="material-icons">code</i> Click here to upload an image
+                            <div class="ripple-container"></div>
+                        </a>
+                        <label class="image-upload-container btn btn-bwm">
+                            <span>Select Image</span>
+
+                            <input [id]="'inpt' + artItemIndex" type="file" accept="image/*"
+                                (change)="processFile(artItemIndex)">
+                        </label>
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Title">
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Author">
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Date">
+                        </mat-form-field>
+                        <!-- <p class="card-category">
                           {{artItem.title}}</p> -->
-                  </div>
-                  <!-- <div class="card-footer">
+                    </div>
+                    <!-- <div class="card-footer">
                       <div class="stats">
                            {{artItem.date}}
                       </div>
                   </div> -->
-              </div>
-          </div>
-          <div class="col-md-4" >
-
-            <div class="card card-chart">                
-                <button mat-raised-button type="submit" class="btn btn-danger pull-right">Save Poll</button>
+                </div>
             </div>
-        </div>
-         <!--  <div class="col-md-4">
+            <div class="col-md-4">
+
+                <div class="card card-chart">
+                    <button mat-raised-button type="submit" class="btn btn-danger pull-right"
+                        [disabled]="isSaveButtonDisable">Save Poll</button>
+                </div>
+            </div>
+            <!--  <div class="col-md-4">
               <div class="card card-chart">
                   <div class="card-header card-header-warning">
                       <div class="ct-chart" id="websiteViewsChart"></div>
@@ -162,8 +163,8 @@
                 </div>
             </div>
         </div> -->
-      </div>
-      <!-- <div class="row">
+        </div>
+        <!-- <div class="row">
           <div class="col-lg-6 col-md-12">
               <div class="card">
                   <div class="card-header card-header-tabs card-header-primary">
@@ -454,5 +455,5 @@
               </div>
           </div>
       </div> -->
-  </div>
+    </div>
 </div>
