@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import * as Chartist from 'chartist';
+
+class ImageSnippet {
+  constructor(public src: string, public file: File) { }
+}
 
 @Component({
   selector: 'app-dashboard',
@@ -7,22 +11,47 @@ import * as Chartist from 'chartist';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  images = [{
-    path: 'assets/img/angular.png', name: 'My Angular logo',
-    description: 'In this logo I tried to add great style', author: 'Set'
+  artItems = [{
+    path: 'assets/img/angular.png', title: 'My Angular logo',
+    date: '4/7/2017', author: 'Set'
   }, {
-    path: 'assets/img/angular.png', name: 'My Angular logo2',
-    description: 'In this logo I tried to add great style', author: 'Set2'
+    path: 'assets/img/angular.png', title: 'My Angular logo2',
+    date: '4/7/2017', author: 'Set2'
   }, {
-    path: 'assets/img/angular.png', name: 'My Angular logo3',
-    description: 'In this logo I tried to add great style', author: 'Set3'
+    path: 'assets/img/angular.png', title: 'My Angular logo3',
+    date: '4/7/2017', author: 'Set3'
   }, {
-    path: 'assets/img/angular.png', name: 'My Angular logo4',
-    description: 'In this logo I tried to add great style', author: 'Set4'
+    path: 'assets/img/angular.png', title: 'My Angular logo4',
+    date: '4/7/2017', author: 'Set4'
   }];
 
 
-  constructor() { }
+  constructor(private elementRef: ElementRef) { }
+
+  clickInputToUploadImage(artItemIndex: number) {
+    const inputToUploadImageHTML = this.elementRef.nativeElement.querySelector('#inpt' + artItemIndex);
+
+    inputToUploadImageHTML.click();
+  }
+
+  processFile(itemIndex: number) {
+
+    const imageInput = this.elementRef.nativeElement.querySelector('#inpt' + itemIndex);
+
+    const file: File = imageInput.files[0];
+    const reader = new FileReader();
+
+    const onLoadCallback = (event: any) => {
+      const selectedFile = new ImageSnippet(event.target.result, file);
+      this.artItems[itemIndex].path = selectedFile.src;
+      reader.removeEventListener('load', onLoadCallback);
+    };
+
+    reader.addEventListener('load', onLoadCallback);
+
+    reader.readAsDataURL(file);
+  }
+
   startAnimationForLineChart(chart) {
     let seq: any, delays: any, durations: any;
     seq = 0;

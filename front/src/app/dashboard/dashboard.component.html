@@ -70,24 +70,42 @@
           </div>
       </div> -->
       <div class="row"><!-- This is the list of images  -->
-          <div class="col-md-4" *ngFor="let img of images" >
+          <div class="col-md-4" *ngFor="let artItem of artItems;let artItemIndex = index;" >
               <div class="card card-chart">
                   <div class="card-header card-header-success upload-img-container">
-                      <div class="upload-img" id=""><img [src]="img.path"></div>
+                      <div class="upload-img" id=""><img [src]="artItem.path"></div>
                   </div>
                   <div class="card-body">
                       <!-- <h4 class="card-title">{{img.name}}</h4> -->
+                      <a mat-button class="nav-link" (click)="clickInputToUploadImage(artItemIndex)" href="#messages" data-toggle="tab">
+                        <i class="material-icons">code</i> Click here to upload an image
+                        <div class="ripple-container"></div>
+                    </a>
+                      <label class="image-upload-container btn btn-bwm">
+                        <span>Select Image</span>
+                        
+                        <input [id]="'inpt' + artItemIndex"
+                               type="file"
+                               accept="image/*"
+                               (change)="processFile(artItemIndex)">
+                      </label>
                       <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Company (disabled)">
+                        <input matInput placeholder="Title">
                       </mat-form-field>
-                      <p class="card-category">
-                          {{img.description}}</p>
+                      <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Author">
+                      </mat-form-field>
+                      <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Date">
+                      </mat-form-field>
+                      <!-- <p class="card-category">
+                          {{artItem.title}}</p> -->
                   </div>
-                  <div class="card-footer">
+                  <!-- <div class="card-footer">
                       <div class="stats">
-                           {{img.author}}
+                           {{artItem.date}}
                       </div>
-                  </div>
+                  </div> -->
               </div>
           </div>
          <!--  <div class="col-md-4">
