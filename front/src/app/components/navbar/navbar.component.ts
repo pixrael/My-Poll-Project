@@ -66,6 +66,7 @@ export class NavbarComponent implements OnInit {
         if (this.mobile_menu_visible === 1) {
             // $('html').removeClass('nav-open');
             body.classList.remove('nav-open');
+            const $layer = null; // added to avoid error
             if ($layer) {
                 $layer.remove();
             }
