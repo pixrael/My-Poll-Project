@@ -21,7 +21,10 @@
                                 (change)="processFile(artItemIndex)">
                         </label>
                         <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Title">
+                            <input
+                                [ngClass]="{ 'error':validationData[artItemIndex].title.isDirty && !validationData[artItemIndex].title.isValid  }"
+                                [title]="validationData[artItemIndex].title.titleMsg" matInput placeholder="Title"
+                                (blur)="onBlur('title',artItemIndex, $event.target.value)">
                         </mat-form-field>
                         <mat-form-field class="example-full-width">
                             <input matInput placeholder="Author">

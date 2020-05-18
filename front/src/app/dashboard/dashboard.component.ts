@@ -12,6 +12,8 @@ class ImageSnippet {
 })
 export class DashboardComponent implements OnInit {
 
+
+
   isSaveButtonDisable = true;
 
   artItems = [{
@@ -30,6 +32,82 @@ export class DashboardComponent implements OnInit {
     path: 'assets/img/angular.png', title: 'My Angular logo4',
     date: '4/7/2017', author: 'Set4',
     uploaded: false
+  }];
+
+  errorMsgs = {
+    artistError: 'only letter are allowed. Max 20 of length',
+    titleError: 'only letter are allowed. Max 20 of length',
+    data: 'Invalid date'
+
+  };
+
+  validationData = [{
+    artist: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    },
+    title: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    },
+    data: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    }
+  },
+  {
+    artist: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    },
+    title: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    },
+    data: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    }
+  },
+  {
+    artist: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    },
+    title: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    },
+    data: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    }
+  },
+  {
+    artist: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    },
+    title: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    },
+    data: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    }
   }];
 
 
@@ -123,86 +201,24 @@ export class DashboardComponent implements OnInit {
 
     seq2 = 0;
   }
-  ngOnInit() {
-    /* // ----------==========     Daily Sales Chart initialization For Documentation    ==========----------
+  ngOnInit() { }
 
-    const dataDailySalesChart: any = {
-      labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-      series: [
-        [12, 17, 7, 17, 23, 18, 38]
-      ]
-    };
+  onBlur(fieldType: string, index: number, value: string) {
+    console.log('onBlur ', fieldType, index, value);
+    console.log('this.validationData ', this.validationData);
+    this.validationData[index][fieldType].isDirty = true;
+    const isValid = this.checkIfTitleIsValid(value);
+    this.validationData[index][fieldType].isValid = isValid;
 
-    const optionsDailySalesChart: any = {
-      lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
-      }),
-      low: 0,
-      high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-      chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
-    };
+    if (!isValid) {
+      this.validationData[index][fieldType].titleMsg = this.errorMsgs.titleError;
+    } else {
+      this.validationData[index][fieldType].titleMsg = '';
+    }
+  }
 
-    const dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
-
-    this.startAnimationForLineChart(dailySalesChart);
-
-
-    // ----------==========     Completed Tasks Chart initialization    ==========----------
-
-    const dataCompletedTasksChart: any = {
-      labels: ['12p', '3p', '6p', '9p', '12p', '3a', '6a', '9a'],
-      series: [
-        [230, 750, 450, 300, 280, 240, 200, 190]
-      ]
-    };
-
-    const optionsCompletedTasksChart: any = {
-      lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
-      }),
-      low: 0,
-      high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-      chartPadding: { top: 0, right: 0, bottom: 0, left: 0 }
-    };
-
-    const completedTasksChart = new Chartist.Line('#completedTasksChart', dataCompletedTasksChart, optionsCompletedTasksChart);
-
-    // start animation for the Completed Tasks Chart - Line Chart
-    this.startAnimationForLineChart(completedTasksChart);
-
-
-
-    //----------==========     Emails Subscription Chart initialization    ==========----------
-
-    const datawebsiteViewsChart = {
-      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-      series: [
-        [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
-
-      ]
-    };
-    const optionswebsiteViewsChart = {
-      axisX: {
-        showGrid: false
-      },
-      low: 0,
-      high: 1000,
-      chartPadding: { top: 0, right: 5, bottom: 0, left: 0 }
-    };
-    const responsiveOptions: any[] = [
-      ['screen and (max-width: 640px)', {
-        seriesBarDistance: 5,
-        axisX: {
-          labelInterpolationFnc: function (value) {
-            return value[0];
-          }
-        }
-      }]
-    ];
-    const websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
-
-    // start animation for the Emails Subscription Chart
-    this.startAnimationForBarChart(websiteViewsChart); */
+  private checkIfTitleIsValid(value: string): boolean {
+    return false;
   }
 
 }

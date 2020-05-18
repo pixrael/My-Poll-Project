@@ -14,3 +14,8 @@
 .image-upload-container{
   visibility:hidden;
 }
+
+.error{
+  color:red;
+  font-weight: bold;
+}
