@@ -12,6 +12,8 @@ class ImageSnippet {
 })
 export class DashboardComponent implements OnInit {
 
+  regexpTitle = /^@?(\w){1,40}$/g;
+
 
 
   isSaveButtonDisable = true;
@@ -204,8 +206,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() { }
 
   onBlur(fieldType: string, index: number, value: string) {
-    console.log('onBlur ', fieldType, index, value);
-    console.log('this.validationData ', this.validationData);
+
     this.validationData[index][fieldType].isDirty = true;
     const isValid = this.checkIfTitleIsValid(value);
     this.validationData[index][fieldType].isValid = isValid;
@@ -218,7 +219,8 @@ export class DashboardComponent implements OnInit {
   }
 
   private checkIfTitleIsValid(value: string): boolean {
-    return false;
+    const test = this.regexpTitle.test(value);
+    return test;
   }
 
 }
