@@ -14,7 +14,7 @@ class ImageSnippet {
 export class DashboardComponent implements OnInit {
 
   regexpTitle = /^[a-zA-Z0-9_ ]{1,40}$/;
-  regexpArtist = /^[a-zA-Z@][a-zA-Z][a-zA-Z0-9_]{1,38}$/;
+  regexpArtist = /^[a-zA-Z@][a-zA-Z][a-zA-Z0-9_ ]{1,38}$/;
 
   isSaveButtonDisable = true;
 
@@ -37,9 +37,9 @@ export class DashboardComponent implements OnInit {
   }];
 
   errorMsgs = {
-    artistError: 'Can start with letters or @.\n Numbers cant be added after @\nNumbers and letters are allowed from second characted ahead.\nMax 20 of length.\nNo spaces are allowed.',
+    artistError: 'Can start with letters or @.\n Numbers cant be added after @\nNumbers and letters are allowed from second characted ahead.\nWhite spaces are allowed.\nMax 20 of length.\nNo spaces are allowed.',
     titleError: 'Letters and numbers are allowed. Max 20 of length',
-    dateError: 'Dates can not be before today. Please selecte a future date'
+    dateError: 'Dates can not be after today. Please select a past date'
   };
 
   validationData = [{
@@ -246,7 +246,7 @@ export class DashboardComponent implements OnInit {
   private checkIfDateIsValid(fieldValue: string) {
     const today = new Date();
 
-    return today < new Date(fieldValue);
+    return today > new Date(fieldValue);
   }
 
   private checkIfTitleIsValid(fieldValue: string): boolean {
