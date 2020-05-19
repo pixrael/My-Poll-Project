@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import * as Chartist from 'chartist';
+import { FormControl } from '@angular/forms';
 
 class ImageSnippet {
   constructor(public src: string, public file: File) { }
@@ -38,7 +39,7 @@ export class DashboardComponent implements OnInit {
   errorMsgs = {
     artistError: 'Can start with letters or @.\n Numbers cant be added after @\nNumbers and letters are allowed from second characted ahead.\nMax 20 of length.\nNo spaces are allowed.',
     titleError: 'Letters and numbers are allowed. Max 20 of length',
-    data: 'Invalid date'
+    dateError: 'Dates can not be before today. Please selecte a future date'
   };
 
   validationData = [{
@@ -52,7 +53,7 @@ export class DashboardComponent implements OnInit {
       isValid: true,
       titleMsg: ''
     },
-    data: {
+    date: {
       isDirty: false,
       isValid: true,
       titleMsg: ''
@@ -69,7 +70,7 @@ export class DashboardComponent implements OnInit {
       isValid: true,
       titleMsg: ''
     },
-    data: {
+    date: {
       isDirty: false,
       isValid: true,
       titleMsg: ''
@@ -86,7 +87,7 @@ export class DashboardComponent implements OnInit {
       isValid: true,
       titleMsg: ''
     },
-    data: {
+    date: {
       isDirty: false,
       isValid: true,
       titleMsg: ''
@@ -103,7 +104,7 @@ export class DashboardComponent implements OnInit {
       isValid: true,
       titleMsg: ''
     },
-    data: {
+    date: {
       isDirty: false,
       isValid: true,
       titleMsg: ''
@@ -215,13 +216,37 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  onDateChange(value: string, index: number) {
+    this.validationData[index].date.isDirty = true;
+    const isValid = this.checkIfFieldIsValid('date', value);
+    this.validationData[index].date.isValid = isValid;
+
+    if (!isValid) {
+      this.validationData[index].date.titleMsg = this.getErrorMsg('date');
+    } else {
+      this.validationData[index].date.titleMsg = '';
+    }
+
+
+  }
+
+
+
   private checkIfFieldIsValid(fieldType: string, fieldValue: string): boolean {
+
     if (fieldType === 'title') {
       return this.checkIfTitleIsValid(fieldValue.trim());
-
     } else if (fieldType === 'artist') {
       return this.checkIfArtistIsValid(fieldValue.trim());
+    } else if (fieldType === 'date') {
+      return this.checkIfDateIsValid(fieldValue);
     }
+  }
+
+  private checkIfDateIsValid(fieldValue: string) {
+    const today = new Date();
+
+    return today < new Date(fieldValue);
   }
 
   private checkIfTitleIsValid(fieldValue: string): boolean {
@@ -239,6 +264,8 @@ export class DashboardComponent implements OnInit {
       return this.errorMsgs.titleError;
     } else if (fieldType === 'artist') {
       return this.errorMsgs.artistError;
+    } else if (fieldType === 'date') {
+      return this.errorMsgs.dateError;
     }
 
   }

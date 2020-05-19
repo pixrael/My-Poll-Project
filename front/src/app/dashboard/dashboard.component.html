@@ -33,7 +33,17 @@
                                 [title]="validationData[artItemIndex].artist.titleMsg" matInput placeholder="Artist">
                         </mat-form-field>
                         <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Date">
+                            <!-- <input matInput placeholder="Date"> -->
+                            <mat-form-field>
+                                <mat-label>Choose a date</mat-label>
+                                <input matInput
+                                    [ngClass]="{ 'error':validationData[artItemIndex].date.isDirty && !validationData[artItemIndex].date.isValid  }"
+                                    (dateChange)="onDateChange($event.target.value, artItemIndex)"
+                                    [title]="validationData[artItemIndex].date.titleMsg" [matDatepicker]="picker">
+                                <mat-datepicker-toggle matSuffix [for]="picker">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
                         </mat-form-field>
                     </div>
                 </div>
