@@ -27,7 +27,10 @@
                                 (blur)="onBlur('title',artItemIndex, $event.target.value)">
                         </mat-form-field>
                         <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Author">
+                            <input
+                                [ngClass]="{ 'error':validationData[artItemIndex].artist.isDirty && !validationData[artItemIndex].artist.isValid  }"
+                                (blur)="onBlur('artist',artItemIndex, $event.target.value)"
+                                [title]="validationData[artItemIndex].artist.titleMsg" matInput placeholder="Artist">
                         </mat-form-field>
                         <mat-form-field class="example-full-width">
                             <input matInput placeholder="Date">

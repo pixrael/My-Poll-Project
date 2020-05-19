@@ -12,9 +12,8 @@ class ImageSnippet {
 })
 export class DashboardComponent implements OnInit {
 
-  regexpTitle = /^@?(\w){1,40}$/g;
-
-
+  regexpTitle = /^[a-zA-Z0-9_ ]{1,40}$/;
+  regexpArtist = /^[a-zA-Z@][a-zA-Z][a-zA-Z0-9_]{1,38}$/;
 
   isSaveButtonDisable = true;
 
@@ -37,10 +36,9 @@ export class DashboardComponent implements OnInit {
   }];
 
   errorMsgs = {
-    artistError: 'only letter are allowed. Max 20 of length',
-    titleError: 'only letter are allowed. Max 20 of length',
+    artistError: 'Can start with letters or @.\n Numbers cant be added after @\nNumbers and letters are allowed from second characted ahead.\nMax 20 of length.\nNo spaces are allowed.',
+    titleError: 'Letters and numbers are allowed. Max 20 of length',
     data: 'Invalid date'
-
   };
 
   validationData = [{
@@ -206,21 +204,43 @@ export class DashboardComponent implements OnInit {
   ngOnInit() { }
 
   onBlur(fieldType: string, index: number, value: string) {
-
     this.validationData[index][fieldType].isDirty = true;
-    const isValid = this.checkIfTitleIsValid(value);
+    const isValid = this.checkIfFieldIsValid(fieldType, value);
     this.validationData[index][fieldType].isValid = isValid;
 
     if (!isValid) {
-      this.validationData[index][fieldType].titleMsg = this.errorMsgs.titleError;
+      this.validationData[index][fieldType].titleMsg = this.getErrorMsg(fieldType);
     } else {
       this.validationData[index][fieldType].titleMsg = '';
     }
   }
 
-  private checkIfTitleIsValid(value: string): boolean {
-    const test = this.regexpTitle.test(value);
+  private checkIfFieldIsValid(fieldType: string, fieldValue: string): boolean {
+    if (fieldType === 'title') {
+      return this.checkIfTitleIsValid(fieldValue.trim());
+
+    } else if (fieldType === 'artist') {
+      return this.checkIfArtistIsValid(fieldValue.trim());
+    }
+  }
+
+  private checkIfTitleIsValid(fieldValue: string): boolean {
+    const test = this.regexpTitle.test(fieldValue);
     return test;
+  }
+
+  private checkIfArtistIsValid(fieldValue: string): boolean {
+    const test = this.regexpArtist.test(fieldValue);
+    return test;
+  }
+
+  private getErrorMsg(fieldType: string) {
+    if (fieldType === 'title') {
+      return this.errorMsgs.titleError;
+    } else if (fieldType === 'artist') {
+      return this.errorMsgs.artistError;
+    }
+
   }
 
 }
