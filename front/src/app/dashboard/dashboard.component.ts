@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import * as Chartist from 'chartist';
+import { FormControl } from '@angular/forms';
 
 class ImageSnippet {
   constructor(public src: string, public file: File) { }
@@ -11,6 +12,9 @@ class ImageSnippet {
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+
+  regexpTitle = /^[a-zA-Z0-9_ ]{1,40}$/;
+  regexpArtist = /^[a-zA-Z@][a-zA-Z][a-zA-Z0-9_ ]{1,38}$/;
 
   isSaveButtonDisable = true;
 
@@ -30,6 +34,81 @@ export class DashboardComponent implements OnInit {
     path: 'assets/img/angular.png', title: 'My Angular logo4',
     date: '4/7/2017', author: 'Set4',
     uploaded: false
+  }];
+
+  errorMsgs = {
+    artistError: 'Can start with letters or @.\n Numbers cant be added after @\nNumbers and letters are allowed from second characted ahead.\nWhite spaces are allowed.\nMax 40 of length.\n',
+    titleError: 'Letters and numbers are allowed. Max 40 of length',
+    dateError: 'Dates can not be after today. Please select a past date'
+  };
+
+  validationData = [{
+    artist: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    },
+    title: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    },
+    date: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    }
+  },
+  {
+    artist: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    },
+    title: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    },
+    date: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    }
+  },
+  {
+    artist: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    },
+    title: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    },
+    date: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    }
+  },
+  {
+    artist: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    },
+    title: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    },
+    date: {
+      isDirty: false,
+      isValid: true,
+      titleMsg: ''
+    }
   }];
 
 
@@ -123,86 +202,72 @@ export class DashboardComponent implements OnInit {
 
     seq2 = 0;
   }
-  ngOnInit() {
-    /* // ----------==========     Daily Sales Chart initialization For Documentation    ==========----------
+  ngOnInit() { }
 
-    const dataDailySalesChart: any = {
-      labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-      series: [
-        [12, 17, 7, 17, 23, 18, 38]
-      ]
-    };
+  onBlur(fieldType: string, index: number, value: string) {
+    this.validationData[index][fieldType].isDirty = true;
+    const isValid = this.checkIfFieldIsValid(fieldType, value);
+    this.validationData[index][fieldType].isValid = isValid;
 
-    const optionsDailySalesChart: any = {
-      lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
-      }),
-      low: 0,
-      high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-      chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
-    };
+    if (!isValid) {
+      this.validationData[index][fieldType].titleMsg = this.getErrorMsg(fieldType);
+    } else {
+      this.validationData[index][fieldType].titleMsg = '';
+    }
+  }
 
-    const dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
+  onDateChange(value: string, index: number) {
+    this.validationData[index].date.isDirty = true;
+    const isValid = this.checkIfFieldIsValid('date', value);
+    this.validationData[index].date.isValid = isValid;
 
-    this.startAnimationForLineChart(dailySalesChart);
+    if (!isValid) {
+      this.validationData[index].date.titleMsg = this.getErrorMsg('date');
+    } else {
+      this.validationData[index].date.titleMsg = '';
+    }
 
 
-    // ----------==========     Completed Tasks Chart initialization    ==========----------
-
-    const dataCompletedTasksChart: any = {
-      labels: ['12p', '3p', '6p', '9p', '12p', '3a', '6a', '9a'],
-      series: [
-        [230, 750, 450, 300, 280, 240, 200, 190]
-      ]
-    };
-
-    const optionsCompletedTasksChart: any = {
-      lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
-      }),
-      low: 0,
-      high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-      chartPadding: { top: 0, right: 0, bottom: 0, left: 0 }
-    };
-
-    const completedTasksChart = new Chartist.Line('#completedTasksChart', dataCompletedTasksChart, optionsCompletedTasksChart);
-
-    // start animation for the Completed Tasks Chart - Line Chart
-    this.startAnimationForLineChart(completedTasksChart);
+  }
 
 
 
-    //----------==========     Emails Subscription Chart initialization    ==========----------
+  private checkIfFieldIsValid(fieldType: string, fieldValue: string): boolean {
 
-    const datawebsiteViewsChart = {
-      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-      series: [
-        [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
+    if (fieldType === 'title') {
+      return this.checkIfTitleIsValid(fieldValue.trim());
+    } else if (fieldType === 'artist') {
+      return this.checkIfArtistIsValid(fieldValue.trim());
+    } else if (fieldType === 'date') {
+      return this.checkIfDateIsValid(fieldValue);
+    }
+  }
 
-      ]
-    };
-    const optionswebsiteViewsChart = {
-      axisX: {
-        showGrid: false
-      },
-      low: 0,
-      high: 1000,
-      chartPadding: { top: 0, right: 5, bottom: 0, left: 0 }
-    };
-    const responsiveOptions: any[] = [
-      ['screen and (max-width: 640px)', {
-        seriesBarDistance: 5,
-        axisX: {
-          labelInterpolationFnc: function (value) {
-            return value[0];
-          }
-        }
-      }]
-    ];
-    const websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
+  private checkIfDateIsValid(fieldValue: string) {
+    const today = new Date();
 
-    // start animation for the Emails Subscription Chart
-    this.startAnimationForBarChart(websiteViewsChart); */
+    return today > new Date(fieldValue);
+  }
+
+  private checkIfTitleIsValid(fieldValue: string): boolean {
+    const test = this.regexpTitle.test(fieldValue);
+    return test;
+  }
+
+  private checkIfArtistIsValid(fieldValue: string): boolean {
+    const test = this.regexpArtist.test(fieldValue);
+    return test;
+  }
+
+  private getErrorMsg(fieldType: string) {
+    if (fieldType === 'title') {
+      return this.errorMsgs.titleError;
+    } else if (fieldType === 'artist') {
+      return this.errorMsgs.artistError;
+    } else if (fieldType === 'date') {
+      return this.errorMsgs.dateError;
+    }
+
   }
 
 }
