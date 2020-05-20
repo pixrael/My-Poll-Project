@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
   }];
 
   errorMsgs = {
-    artistError: 'Can start with letters or @.\n Numbers cant be added after @\nNumbers and letters are allowed from second characted ahead.\nWhite spaces are allowed.\nMax 20 of length.\nNo spaces are allowed.',
+    artistError: 'Can start with letters or @.\n Numbers cant be added after @\nNumbers and letters are allowed from second characted ahead.\nWhite spaces are allowed.\nMax 20 of length.\n',
     titleError: 'Letters and numbers are allowed. Max 20 of length',
     dateError: 'Dates can not be after today. Please select a past date'
   };
