@@ -2,3 +2,9 @@
 .cdk-overlay-container{
    z-index:1050 !important;
 }
+
+/* Styles for validations */
+.error-input{
+   color:red !important;
+   font-weight: bold !important;
+ }
