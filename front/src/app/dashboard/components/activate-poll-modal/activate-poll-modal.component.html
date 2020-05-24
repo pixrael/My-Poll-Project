@@ -3,8 +3,8 @@
    <div class="modal-dialog" role="document">
       <div class="modal-content">
          <div class="modal-body text-center">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onCancelClick()"><span
-                  aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+               (click)="onCancelClick($event)"><span aria-hidden="true">&times;</span></button>
             <h4 class="margin-top">
                Poll activation
             </h4>
@@ -43,7 +43,7 @@
             <button mat-raised-button type="submit" class="btn btn-danger pull-right"
                [disabled]="isAcceptButtonDisabled" data-toggle="modal" data-dismiss="modal">Accept</button>
             <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="false"
-               data-toggle="modal" data-dismiss="modal" (click)="onCancelClick()">Cancel</button>
+               data-toggle="modal" data-dismiss="modal" (click)="onCancelClick($event)">Cancel</button>
          </div>
       </div>
    </div>
