@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-activate-poll-modal',
@@ -6,6 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./activate-poll-modal.component.css']
 })
 export class ActivatePollModalComponent implements OnInit {
+
+  @ViewChild('startDateInput') startDateInput: ElementRef;
+  @ViewChild('startTimeInput') startTimeInput: ElementRef;
+
+  @ViewChild('endDateInput') endDateInput: ElementRef;
+  @ViewChild('endTimeInput') endTimeInput: ElementRef;
 
   pollStartDate: {
     date: Date;
@@ -43,6 +49,7 @@ export class ActivatePollModalComponent implements OnInit {
     if (dateType === 'start') {
       this.pollStartDate.isDirtyDate = true;
       this.pollStartDate.date = new Date(value);
+
     } else {
       this.pollEndDate.isDirtyDate = true;
       this.pollEndDate.date = new Date(value);
@@ -77,10 +84,48 @@ export class ActivatePollModalComponent implements OnInit {
 
   }
 
+  onCancelClick(event) {
+    this.clearPollsData();
+    this.clearPollsInputs();
+    this.isAcceptButtonDisabled = true;
+  }
+
+  private clearPollsData() {
+    this.pollStartDate = { date: null, time: null, isDirtyDate: false, isDirtyTime: false, isValid: true, title: '' };
+
+    this.pollEndDate = { date: null, time: null, isDirtyDate: false, isDirtyTime: false, isValid: true, title: '' };
+  }
+
+  private clearPollsInputs() {
+    this.startDateInput.nativeElement.value = '';
+    this.startTimeInput.nativeElement.value = '';
+
+    this.endDateInput.nativeElement.value = '';
+    this.endTimeInput.nativeElement.value = '';
+  }
+
 
   private validateDatesAndTimes() {
-    if (this.pollStartDate.isDirtyDate && this.pollStartDate.isDirtyTime &&
+
+    let startDateIsValid = true;
+    if (this.pollStartDate.isDirtyDate && this.pollStartDate.isDirtyTime) {
+
+      if (!this.checkValidStartDate()) {
+        this.pollStartDate.title = 'Start date should be before today';
+        this.pollStartDate.isValid = false;
+        startDateIsValid = false;
+      } else {
+        this.pollStartDate.title = '';
+        this.pollStartDate.isValid = true;
+        startDateIsValid = true;
+      }
+
+    }
+
+    if (startDateIsValid && this.pollStartDate.isDirtyDate && this.pollStartDate.isDirtyTime &&
       this.pollEndDate.isDirtyDate && this.pollEndDate.isDirtyTime) {
+
+
 
       if (this.checkValidRange()) {
         this.pollStartDate.title = '';
@@ -96,8 +141,18 @@ export class ActivatePollModalComponent implements OnInit {
         this.pollEndDate.title = 'Start date should be before end date';
         this.pollEndDate.isValid = false;
       }
+
     }
 
+  }
+
+  private checkValidStartDate(): boolean {
+    const startDate = this.pollStartDate.date;
+    const startHour = +this.pollStartDate.time.split(':')[0];
+    const startMin = +this.pollStartDate.time.split(':')[1];
+    startDate.setHours(startHour, startMin);
+
+    return new Date < startDate;
   }
 
   private checkValidRange(): boolean {
