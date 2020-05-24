@@ -13,8 +13,8 @@ class ImageSnippet {
 })
 export class DashboardComponent implements OnInit {
 
-  regexpTitle = /^[a-zA-Z0-9_ ]{1,40}$/;
-  regexpArtist = /^[a-zA-Z@][a-zA-Z][a-zA-Z0-9_ ]{1,38}$/;
+  regexpTitle = /^[a-zA-Z0-9_ ]{1,20}$/;
+  regexpArtist = /^[a-zA-Z@][a-zA-Z][a-zA-Z0-9_ ]{1,18}$/;
 
   isSaveButtonDisable = true;
 
@@ -37,8 +37,8 @@ export class DashboardComponent implements OnInit {
   }];
 
   errorMsgs = {
-    artistError: 'Can start with letters or @.\n Numbers cant be added after @\nNumbers and letters are allowed from second characted ahead.\nWhite spaces are allowed.\nMax 40 of length.\n',
-    titleError: 'Letters and numbers are allowed. Max 40 of length',
+    artistError: 'Can start with letters or @.\n Numbers cant be added after @\nNumbers and letters are allowed from second characted ahead.\nWhite spaces are allowed.\nMax 20 of length.\n',
+    titleError: 'Letters and numbers are allowed. Max 20 of length',
     dateError: 'Dates can not be after today. Please select a past date'
   };
 

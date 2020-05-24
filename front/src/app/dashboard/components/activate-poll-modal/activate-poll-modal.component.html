@@ -11,39 +11,37 @@
             <div class="separator"></div>
             <mat-form-field>
                <mat-label>Start poll date</mat-label>
-               <input [ngClass]="{ 'error-input':validationData.start.isDirty && !validationData.start.isValid  }"
-                  [title]="validationData.start.titleMsg" matInput [matDatepicker]="pickerInit"
-                  (dateChange)="onDateChange('start',$event.target.value)">
+               <input [ngClass]="{ 'error-input':!pollStartDate.isValid  }" [title]="pollStartDate.title" matInput
+                  [matDatepicker]="pickerInit" (dateChange)="onDateChange('start',$event.target.value)">
                <mat-datepicker-toggle matSuffix [for]="pickerInit">
                </mat-datepicker-toggle>
                <mat-datepicker class="modal-date-picker" #pickerInit></mat-datepicker>
             </mat-form-field>
             <mat-form-field>
-               <mat-label>Hours and minutes</mat-label>
-               <div><input matInput type='time' /></div>
+               <mat-label>Start hours and minutes</mat-label>
+               <div><input matInput type='time' (blur)="onTimeBlur('start', $event.target.value)" /></div>
             </mat-form-field>
             <div class="separator"></div>
             <div class="separator"></div>
             <mat-form-field>
                <mat-label>Choose end poll date</mat-label>
-               <input [ngClass]="{ 'error-input':validationData.end.isDirty && !validationData.end.isValid  }"
-                  [title]="validationData.end.titleMsg" matInput [matDatepicker]="pickerEnd"
-                  (dateChange)="onDateChange('end',$event.target.value)">
+               <input [ngClass]="{ 'error-input':!pollEndDate.isValid  }" [title]="pollEndDate.title" matInput
+                  [matDatepicker]="pickerEnd" (dateChange)="onDateChange('end',$event.target.value)">
                <mat-datepicker-toggle matSuffix [for]="pickerEnd">
                </mat-datepicker-toggle>
                <mat-datepicker #pickerEnd></mat-datepicker>
             </mat-form-field>
             <mat-form-field>
                <mat-label>End hours and minutes</mat-label>
-               <div><input matInput type='time' /></div>
+               <div><input matInput type='time' (blur)="onTimeBlur('end', $event.target.value)" /></div>
             </mat-form-field>
             <div class="separator"></div>
 
             <div class="separator"></div>
+            <button mat-raised-button type="submit" class="btn btn-danger pull-right"
+               [disabled]="isAcceptButtonDisabled" data-toggle="modal" data-dismiss="modal">Accept</button>
             <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="false"
-               data-toggle="modal">Accept</button>
-            <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="false"
-               data-toggle="modal">Cancel</button>
+               data-toggle="modal" data-dismiss="modal">Cancel</button>
          </div>
       </div>
    </div>
