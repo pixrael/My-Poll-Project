@@ -111,7 +111,7 @@ export class ActivatePollModalComponent implements OnInit {
     if (this.pollStartDate.isDirtyDate && this.pollStartDate.isDirtyTime) {
 
       if (!this.checkValidStartDate()) {
-        this.pollStartDate.title = 'Start date should be before today';
+        this.pollStartDate.title = 'Start date should be after today';
         this.pollStartDate.isValid = false;
         startDateIsValid = false;
       } else {
@@ -138,7 +138,7 @@ export class ActivatePollModalComponent implements OnInit {
       } else {
         this.pollStartDate.title = 'Start date should be before end date';
         this.pollStartDate.isValid = false;
-        this.pollEndDate.title = 'Start date should be before end date';
+        this.pollEndDate.title = 'End date should be after end start';
         this.pollEndDate.isValid = false;
       }
 
