@@ -157,7 +157,6 @@ export class DashboardComponent implements OnInit {
     const itemsDirty = this.validationData
       .filter(vData => (
         vData.artist.isDirty && vData.artist.isValid &&
-        vData.title.isDirty && vData.title.isValid &&
         vData.date.isDirty && vData.date.isValid &&
         vData.image.uploaded));
 
