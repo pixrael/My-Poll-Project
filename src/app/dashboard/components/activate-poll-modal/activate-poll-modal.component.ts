@@ -38,10 +38,28 @@ export class ActivatePollModalComponent implements OnInit {
   };
 
   private pleaseAddHourMsg = 'Please add hour and minutes';
+  private interval = null;
 
   constructor() { }
 
   ngOnInit(): void { }
+
+  onTodayButtonClick(event) {
+
+    const today = new Date();
+    const minutes = today.getMinutes() + 5;
+    today.setMinutes(minutes);
+    const hours = today.getHours();
+
+    const date = (today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear();
+    this.startDateInput.nativeElement.value = date;
+    this.onDateChange('start', date);
+
+    const time = hours + ':' + minutes;
+    this.startTimeInput.nativeElement.value = time;
+
+    this.onTimeBlur('start', time);
+  }
 
   onDateChange(dateType: ('start' | 'end'), value: string) {
 
@@ -88,6 +106,8 @@ export class ActivatePollModalComponent implements OnInit {
     this.clearPollsData();
     this.clearPollsInputs();
     this.isAcceptButtonDisabled = true;
+    clearInterval(this.interval);
+    this.interval = null;
   }
 
   private clearPollsData() {
@@ -114,10 +134,15 @@ export class ActivatePollModalComponent implements OnInit {
         this.pollStartDate.title = 'Start date should be after today';
         this.pollStartDate.isValid = false;
         startDateIsValid = false;
+        this.isAcceptButtonDisabled = true;
+
+        clearInterval(this.interval);
+        this.interval = null;
       } else {
         this.pollStartDate.title = '';
         this.pollStartDate.isValid = true;
         startDateIsValid = true;
+        this.verifyEverySec();
       }
 
     }
@@ -152,7 +177,7 @@ export class ActivatePollModalComponent implements OnInit {
     const startMin = +this.pollStartDate.time.split(':')[1];
     startDate.setHours(startHour, startMin);
 
-    return new Date < startDate;
+    return new Date() < startDate;
   }
 
   private checkValidRange(): boolean {
@@ -169,6 +194,17 @@ export class ActivatePollModalComponent implements OnInit {
     endDate.setHours(endHour, endMin);
 
     return startDate < endDate;
+  }
+
+
+  private verifyEverySec() {
+
+    if (!this.interval) {
+      this.interval = setInterval(() => {
+        this.validateDatesAndTimes();
+      }, 1000);
+    }
+
   }
 
 }

@@ -9,6 +9,20 @@
                Poll activation
             </h4>
             <div class="separator"></div>
+
+            <div class="form-check">
+
+               <button mat-raised-button class="btn btn-white btn-round btn-just-icon"
+                  (click)="onTodayButtonClick($event)">
+                  <i class="material-icons">calendar_today</i>
+                  <div class="ripple-container"></div>
+               </button>
+
+               <label class="form-check-label"> Select current date and time as start date (plus 5 minutes)
+
+               </label>
+            </div>
+
             <mat-form-field>
                <mat-label>Start poll date</mat-label>
                <input #startDateInput [ngClass]="{ 'error-input':!pollStartDate.isValid  }"
