@@ -45,11 +45,21 @@ export class ActivatePollModalComponent implements OnInit {
   ngOnInit(): void { }
 
   onTodayButtonClick(event) {
-
     const today = new Date();
-    const minutes = today.getMinutes() + 5;
+    let minutes = today.getMinutes() + 5;
+
     today.setMinutes(minutes);
-    const hours = today.getHours();
+    let hours = today.getHours();
+
+    if (minutes > 59) {
+      minutes = minutes - 60;
+
+      hours = hours + 1;
+
+      if (hours > 23) {
+        hours = 0;
+      }
+    }
 
     const date = (today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear();
     this.startDateInput.nativeElement.value = date;
