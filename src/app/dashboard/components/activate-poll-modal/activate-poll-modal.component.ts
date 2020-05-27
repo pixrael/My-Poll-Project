@@ -47,8 +47,6 @@ export class ActivatePollModalComponent implements OnInit {
   onTodayButtonClick(event) {
     const today = new Date();
     let minutes = today.getMinutes() + 5;
-
-    today.setMinutes(minutes);
     let hours = today.getHours();
 
     if (minutes > 59) {
@@ -60,12 +58,24 @@ export class ActivatePollModalComponent implements OnInit {
         hours = 0;
       }
     }
+    let minStr = minutes + '';
+    let hoursStr = hours + '';
+
+    if (hoursStr.length === 1) {
+      hoursStr = '0' + hoursStr;
+    }
+
+    if (minStr.length === 1) {
+      minStr = '0' + minStr;
+    }
+
+    today.setMinutes(minutes);
 
     const date = (today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear();
     this.startDateInput.nativeElement.value = date;
     this.onDateChange('start', date);
 
-    const time = hours + ':' + minutes;
+    const time = hoursStr + ':' + minStr;
     this.startTimeInput.nativeElement.value = time;
 
     this.onTimeBlur('start', time);

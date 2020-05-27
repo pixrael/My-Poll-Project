@@ -34,13 +34,14 @@
             </mat-form-field>
             <mat-form-field>
                <mat-label>Start hours and minutes</mat-label>
-               <div><input #startTimeInput matInput type='time' (blur)="onTimeBlur('start', $event.target.value)" />
+               <div><input #startTimeInput matInput type='time' (blur)="onTimeBlur('start', $event.target.value)"
+                     [ngClass]="{ 'error-input':!pollStartDate.isValid  }" [title]="pollStartDate.title" />
                </div>
             </mat-form-field>
             <div class="separator"></div>
             <div class="separator"></div>
             <mat-form-field>
-               <mat-label>Choose end poll date</mat-label>
+               <mat-label>End poll date</mat-label>
                <input #endDateInput [ngClass]="{ 'error-input':!pollEndDate.isValid  }" [title]="pollEndDate.title"
                   matInput [matDatepicker]="pickerEnd" (dateChange)="onDateChange('end',$event.target.value)">
                <mat-datepicker-toggle matSuffix [for]="pickerEnd">
@@ -49,7 +50,8 @@
             </mat-form-field>
             <mat-form-field>
                <mat-label>End hours and minutes</mat-label>
-               <div><input #endTimeInput matInput type='time' (blur)="onTimeBlur('end', $event.target.value)" /></div>
+               <div><input #endTimeInput matInput type='time' (blur)="onTimeBlur('end', $event.target.value)"
+                     [ngClass]="{ 'error-input':!pollEndDate.isValid  }" [title]="pollEndDate.title" /></div>
             </mat-form-field>
             <div class="separator"></div>
 
