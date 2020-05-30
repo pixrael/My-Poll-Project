@@ -19,7 +19,11 @@ export class LoginAccessRequestService {
 
   constructor(private http: HttpClient) { }
 
-  requestLogginAccess(login: string, password: string): Observable<ServerResponseMyPoll> {
+  getServerResponse$(): Observable<ServerResponseMyPoll> {
+    return this.serverResponse$;
+  }
+
+  requestLogginAccess(login: string, password: string) {
     // TODO request post
 
     // making the request
@@ -49,16 +53,13 @@ export class LoginAccessRequestService {
           status: 'success',
           dataResponse: {
             status: 'success',
-            response: { successfulLogin: false, userId: null, msg: 'invalid login or password' }
+            data: { successfulLogin: false, userId: null, msg: 'invalid login or password' }
           }
         });
 
-      }, 3000);
+      }, 0);
 
     }
-
-    return this.serverResponse$;
-
   }
 
 }

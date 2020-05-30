@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 declare var $: any;
 
 import { LoginAccessRequestService } from '../services/login-access-request.service';
@@ -11,24 +11,31 @@ import { LoginStatusValidatorService } from 'app/services/login-status-validator
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.css']
 })
-export class NotificationsComponent implements OnInit {
+export class NotificationsComponent implements OnInit, OnDestroy {
   @ViewChild('loginInput') loginInput: ElementRef;
   @ViewChild('passwordInput') passwordInput: ElementRef;
+  private currentNotify = null;
+  private subscription = null;
 
   constructor(private loginAccessRequestService: LoginAccessRequestService,
     private loginStatusValidatorService: LoginStatusValidatorService) { }
-  showNotification(from, align) {
-    const type = ['', 'info', 'success', 'warning', 'danger'];
 
-    const color = Math.floor((Math.random() * 4) + 1);
+  showNotification(from, align, message: string, type: string) {
+    console.log('showNotification');
+    // const type = ['', 'info', 'success', 'warning', 'danger'];
 
-    $.notify({
+    if (this.currentNotify) {
+      this.currentNotify.close();
+      this.currentNotify = null;
+    }
+
+    this.currentNotify = $.notify({
       icon: 'notifications',
-      message: 'Welcome to <b>Material Dashboard</b> - a beautiful freebie for every web developer.'
-
+      message
     }, {
-      type: type[color],
+      type,
       timer: 4000,
+      showProgressbar: false,
       placement: {
         from: from,
         align: align
@@ -45,20 +52,12 @@ export class NotificationsComponent implements OnInit {
         '</div>'
     });
   }
+
   ngOnInit() {
-  }
 
-  onAccessButtonClick(event) {
-
-    const login = this.loginInput.nativeElement.value;
-    const password = this.passwordInput.nativeElement.value;
-
-    this.loginAccessRequestService.requestLogginAccess(login, password).subscribe((serverResponse: ServerResponseMyPoll) => {
-
-      console.log('serverResponse ', serverResponse);
+    this.loginAccessRequestService.getServerResponse$().subscribe((serverResponse: ServerResponseMyPoll) => {
 
       if (serverResponse.status === 'waiting-reponse') {
-        console.log('should show a loading icon');
       } else if (serverResponse.status === 'success') {
         // check if is correct the login and password
         if (serverResponse.dataResponse.data.successfulLogin) {
@@ -68,12 +67,25 @@ export class NotificationsComponent implements OnInit {
 
         } else {
           // should show the message of wrong login or password
+          this.showNotification('top', 'right', 'Login or password invalid', 'warning');
         }
-
       }
 
-
     });
+  }
+
+  onAccessButtonClick(event) {
+    const login = this.loginInput.nativeElement.value;
+    const password = this.passwordInput.nativeElement.value;
+
+    this.loginAccessRequestService
+      .requestLogginAccess(login, password);
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
 }
