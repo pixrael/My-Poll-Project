@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { ServerResponse } from './server-response.model';
+import { ServerResponseMyPoll } from './server-response.model';
 
 
 @Injectable({
@@ -11,31 +11,31 @@ import { ServerResponse } from './server-response.model';
 export class LoginAccessRequestService {
   private waitingServerResponse = false;
 
-  private serverResponseSource = new BehaviorSubject<ServerResponse>({
+  private serverResponseSource = new BehaviorSubject<ServerResponseMyPoll>({
     status: 'idle',
-    response: null
+    dataResponse: null
   });
   private serverResponse$ = this.serverResponseSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
-  requestLogginAccess(login: string, password: string): Observable<ServerResponse> {
+  requestLogginAccess(login: string, password: string): Observable<ServerResponseMyPoll> {
     // TODO request post
 
     // making the request
     this.serverResponseSource.next({
       status: 'waiting-reponse',
-      response: null
+      dataResponse: null
     });
 
     if (login === 'admin@gmail.com' && password === '1234') {
       setTimeout(() => {
         // receiving the server data for correct login and password
         this.serverResponseSource.next({
-          status: 'waiting-reponse',
-          response: {
+          status: 'success',
+          dataResponse: {
             status: 'success',
-            response: { successfulLogin: true, userId: '000' }
+            data: { successfulLogin: true, userId: '000' }
           }
         });
 
@@ -46,8 +46,8 @@ export class LoginAccessRequestService {
       setTimeout(() => {
         // receiving the server data for correct login and password
         this.serverResponseSource.next({
-          status: 'waiting-reponse',
-          response: {
+          status: 'success',
+          dataResponse: {
             status: 'success',
             response: { successfulLogin: false, userId: null, msg: 'invalid login or password' }
           }

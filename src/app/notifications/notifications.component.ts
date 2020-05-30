@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { LoginStatusValidatorService } from 'app/services/login-status-validator.service';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 declare var $: any;
 
 import { LoginAccessRequestService } from '../services/login-access-request.service';
 import { ServerResponseMyPoll } from '../services/server-response.model';
+import { LoginStatusValidatorService } from 'app/services/login-status-validator.service';
 
 
 @Component({
@@ -12,8 +12,11 @@ import { ServerResponseMyPoll } from '../services/server-response.model';
   styleUrls: ['./notifications.component.css']
 })
 export class NotificationsComponent implements OnInit {
+  @ViewChild('loginInput') loginInput: ElementRef;
+  @ViewChild('passwordInput') passwordInput: ElementRef;
 
-  constructor(loginStatusValidatorService: LoginStatusValidatorService, private loginAccessRequestService: LoginAccessRequestService) { }
+  constructor(private loginAccessRequestService: LoginAccessRequestService,
+    private loginStatusValidatorService: LoginStatusValidatorService) { }
   showNotification(from, align) {
     const type = ['', 'info', 'success', 'warning', 'danger'];
 
@@ -45,15 +48,24 @@ export class NotificationsComponent implements OnInit {
   ngOnInit() {
   }
 
-  onAccessButtonClick(event, login: string, password: string) {
+  onAccessButtonClick(event) {
+
+    const login = this.loginInput.nativeElement.value;
+    const password = this.passwordInput.nativeElement.value;
+
     this.loginAccessRequestService.requestLogginAccess(login, password).subscribe((serverResponse: ServerResponseMyPoll) => {
+
+      console.log('serverResponse ', serverResponse);
 
       if (serverResponse.status === 'waiting-reponse') {
         console.log('should show a loading icon');
       } else if (serverResponse.status === 'success') {
         // check if is correct the login and password
-        if (serverResponse.response.successfulLogin) {
+        if (serverResponse.dataResponse.data.successfulLogin) {
           // correct should go to the dashboard with the user id
+          this.loginStatusValidatorService.setLoggingStatus(true);
+          this.loginStatusValidatorService.validateLoginStatus();
+
         } else {
           // should show the message of wrong login or password
         }
