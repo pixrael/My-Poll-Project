@@ -121,6 +121,6 @@ export class NavbarComponent implements OnInit {
                 return this.listTitles[item].title;
             }
         }
-        return 'Login Access';
+        return 'My Poll - Admin Module';
     }
 }
