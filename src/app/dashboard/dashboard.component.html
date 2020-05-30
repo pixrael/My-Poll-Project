@@ -22,13 +22,13 @@
                         </label>
                         <mat-form-field class="example-full-width">
                             <input
-                                [ngClass]="{ 'error':validationData[artItemIndex].title.isDirty && !validationData[artItemIndex].title.isValid  }"
+                                [ngClass]="{ 'error-input':validationData[artItemIndex].title.isDirty && !validationData[artItemIndex].title.isValid  }"
                                 [title]="validationData[artItemIndex].title.titleMsg" matInput placeholder="Title"
                                 (blur)="onBlur('title',artItemIndex, $event.target.value)">
                         </mat-form-field>
                         <mat-form-field class="example-full-width">
                             <input
-                                [ngClass]="{ 'error':validationData[artItemIndex].artist.isDirty && !validationData[artItemIndex].artist.isValid  }"
+                                [ngClass]="{ 'error-input':validationData[artItemIndex].artist.isDirty && !validationData[artItemIndex].artist.isValid  }"
                                 (blur)="onBlur('artist',artItemIndex, $event.target.value)"
                                 [title]="validationData[artItemIndex].artist.titleMsg" matInput placeholder="Artist">
                         </mat-form-field>
@@ -37,7 +37,7 @@
                             <mat-form-field>
                                 <mat-label>Choose a date</mat-label>
                                 <input matInput
-                                    [ngClass]="{ 'error':validationData[artItemIndex].date.isDirty && !validationData[artItemIndex].date.isValid  }"
+                                    [ngClass]="{ 'error-input':validationData[artItemIndex].date.isDirty && !validationData[artItemIndex].date.isValid  }"
                                     (dateChange)="onDateChange($event.target.value, artItemIndex)"
                                     [title]="validationData[artItemIndex].date.titleMsg" [matDatepicker]="picker">
                                 <mat-datepicker-toggle matSuffix [for]="picker">
@@ -53,9 +53,11 @@
             <div class="col-md-12">
                 <div class="card card-chart">
                     <button mat-raised-button type="submit" class="btn btn-danger pull-right"
-                        [disabled]="isSaveButtonDisable">Save Poll</button>
+                        [disabled]="isSaveButtonDisable" data-toggle="modal" data-target="#activate-poll-modal">Activate
+                        Poll</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<app-activate-poll-modal></app-activate-poll-modal>

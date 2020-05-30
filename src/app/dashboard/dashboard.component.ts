@@ -13,36 +13,35 @@ class ImageSnippet {
 })
 export class DashboardComponent implements OnInit {
 
-  regexpTitle = /^[a-zA-Z0-9_ ]{1,40}$/;
-  regexpArtist = /^[a-zA-Z@][a-zA-Z][a-zA-Z0-9_ ]{1,38}$/;
+  regexpTitle = /^[a-zA-Z0-9_ ]{1,20}$/;
+  regexpArtist = /^[a-zA-Z@][a-zA-Z][a-zA-Z0-9_ ]{1,18}$/;
 
   isSaveButtonDisable = true;
 
   artItems = [{
     path: 'assets/img/angular.png', title: 'My Angular logo',
     date: '4/7/2017', author: 'Set',
-    uploaded: false
   }, {
     path: 'assets/img/angular.png', title: 'My Angular logo2',
     date: '4/7/2017', author: 'Set2',
-    uploaded: false
   }, {
     path: 'assets/img/angular.png', title: 'My Angular logo3',
     date: '4/7/2017', author: 'Set3',
-    uploaded: false
   }, {
     path: 'assets/img/angular.png', title: 'My Angular logo4',
     date: '4/7/2017', author: 'Set4',
-    uploaded: false
   }];
 
   errorMsgs = {
-    artistError: 'Can start with letters or @.\n Numbers cant be added after @\nNumbers and letters are allowed from second characted ahead.\nWhite spaces are allowed.\nMax 40 of length.\n',
-    titleError: 'Letters and numbers are allowed. Max 40 of length',
+    artistError: 'Can start with letters or @.\nNumbers cant be added after @\nNumbers and letters are allowed from second characted ahead.\nWhite spaces are allowed.\nMax 20 of length.\nMin lenght 3.',
+    titleError: 'Letters and numbers are allowed. Max 20 of length.',
     dateError: 'Dates can not be after today. Please select a past date'
   };
 
   validationData = [{
+    image: {
+      uploaded: false,
+    },
     artist: {
       isDirty: false,
       isValid: true,
@@ -60,6 +59,9 @@ export class DashboardComponent implements OnInit {
     }
   },
   {
+    image: {
+      uploaded: false,
+    },
     artist: {
       isDirty: false,
       isValid: true,
@@ -77,6 +79,9 @@ export class DashboardComponent implements OnInit {
     }
   },
   {
+    image: {
+      uploaded: false,
+    },
     artist: {
       isDirty: false,
       isValid: true,
@@ -94,6 +99,9 @@ export class DashboardComponent implements OnInit {
     }
   },
   {
+    image: {
+      uploaded: false,
+    },
     artist: {
       isDirty: false,
       isValid: true,
@@ -121,6 +129,7 @@ export class DashboardComponent implements OnInit {
   }
 
   processFile(itemIndex: number) {
+    this.isSaveButtonDisable = true;
 
     const imageInput = this.elementRef.nativeElement.querySelector('#inpt' + itemIndex);
 
@@ -130,7 +139,7 @@ export class DashboardComponent implements OnInit {
     const onLoadCallback = (event: any) => {
       const selectedFile = new ImageSnippet(event.target.result, file);
       this.artItems[itemIndex].path = selectedFile.src;
-      this.artItems[itemIndex].uploaded = true;
+      this.validationData[itemIndex].image.uploaded = true;
 
       this.updateSaveButtosState();
 
@@ -140,10 +149,18 @@ export class DashboardComponent implements OnInit {
     reader.addEventListener('load', onLoadCallback);
 
     reader.readAsDataURL(file);
+
   }
 
   updateSaveButtosState() {
-    this.isSaveButtonDisable = this.artItems.filter(artItem => artItem.uploaded).length < 2;
+
+    const itemsDirty = this.validationData
+      .filter(vData => (
+        vData.artist.isDirty && vData.artist.isValid &&
+        vData.date.isDirty && vData.date.isValid &&
+        vData.image.uploaded));
+
+    this.isSaveButtonDisable = itemsDirty.length < 2;
   }
 
   startAnimationForLineChart(chart) {
@@ -205,6 +222,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() { }
 
   onBlur(fieldType: string, index: number, value: string) {
+    this.isSaveButtonDisable = true;
     this.validationData[index][fieldType].isDirty = true;
     const isValid = this.checkIfFieldIsValid(fieldType, value);
     this.validationData[index][fieldType].isValid = isValid;
@@ -214,20 +232,33 @@ export class DashboardComponent implements OnInit {
     } else {
       this.validationData[index][fieldType].titleMsg = '';
     }
+
+    this.updateSaveButtosState();
   }
 
   onDateChange(value: string, index: number) {
-    this.validationData[index].date.isDirty = true;
-    const isValid = this.checkIfFieldIsValid('date', value);
-    this.validationData[index].date.isValid = isValid;
+    this.isSaveButtonDisable = true;
 
-    if (!isValid) {
-      this.validationData[index].date.titleMsg = this.getErrorMsg('date');
-    } else {
+    if (!value) {
+      this.validationData[index].date.isDirty = false;
       this.validationData[index].date.titleMsg = '';
+
+    } else {
+      this.validationData[index].date.isDirty = true;
+      const isValid = this.checkIfFieldIsValid('date', value);
+      this.validationData[index].date.isValid = isValid;
+
+      if (!isValid) {
+        this.validationData[index].date.titleMsg = this.getErrorMsg('date');
+      } else {
+        this.validationData[index].date.titleMsg = '';
+      }
+
     }
 
 
+
+    this.updateSaveButtosState();
   }
 
 
@@ -244,6 +275,8 @@ export class DashboardComponent implements OnInit {
   }
 
   private checkIfDateIsValid(fieldValue: string) {
+
+
     const today = new Date();
 
     return today > new Date(fieldValue);
