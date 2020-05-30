@@ -9,6 +9,20 @@
                Poll activation
             </h4>
             <div class="separator"></div>
+
+            <div class="form-check">
+
+               <button mat-raised-button class="btn btn-white btn-round btn-just-icon"
+                  (click)="onTodayButtonClick($event)">
+                  <i class="material-icons">calendar_today</i>
+                  <div class="ripple-container"></div>
+               </button>
+
+               <label class="form-check-label"> Select current date and time as start date (plus 5 minutes)
+
+               </label>
+            </div>
+
             <mat-form-field>
                <mat-label>Start poll date</mat-label>
                <input #startDateInput [ngClass]="{ 'error-input':!pollStartDate.isValid  }"
@@ -20,13 +34,14 @@
             </mat-form-field>
             <mat-form-field>
                <mat-label>Start hours and minutes</mat-label>
-               <div><input #startTimeInput matInput type='time' (blur)="onTimeBlur('start', $event.target.value)" />
+               <div><input #startTimeInput matInput type='time' (blur)="onTimeBlur('start', $event.target.value)"
+                     [ngClass]="{ 'error-input':!pollStartDate.isValid  }" [title]="pollStartDate.title" />
                </div>
             </mat-form-field>
             <div class="separator"></div>
             <div class="separator"></div>
             <mat-form-field>
-               <mat-label>Choose end poll date</mat-label>
+               <mat-label>End poll date</mat-label>
                <input #endDateInput [ngClass]="{ 'error-input':!pollEndDate.isValid  }" [title]="pollEndDate.title"
                   matInput [matDatepicker]="pickerEnd" (dateChange)="onDateChange('end',$event.target.value)">
                <mat-datepicker-toggle matSuffix [for]="pickerEnd">
@@ -35,7 +50,8 @@
             </mat-form-field>
             <mat-form-field>
                <mat-label>End hours and minutes</mat-label>
-               <div><input #endTimeInput matInput type='time' (blur)="onTimeBlur('end', $event.target.value)" /></div>
+               <div><input #endTimeInput matInput type='time' (blur)="onTimeBlur('end', $event.target.value)"
+                     [ngClass]="{ 'error-input':!pollEndDate.isValid  }" [title]="pollEndDate.title" /></div>
             </mat-form-field>
             <div class="separator"></div>
 
