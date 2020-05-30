@@ -57,7 +57,7 @@ export class LoginAccessRequestService {
           }
         });
 
-      }, 0);
+      }, 1500);
 
     }
   }

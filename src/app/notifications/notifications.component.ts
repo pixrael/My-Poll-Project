@@ -16,14 +16,12 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   @ViewChild('passwordInput') passwordInput: ElementRef;
   private currentNotify = null;
   private subscription = null;
+  showLoading = false;
 
   constructor(private loginAccessRequestService: LoginAccessRequestService,
     private loginStatusValidatorService: LoginStatusValidatorService) { }
 
   showNotification(from, align, message: string, type: string) {
-    console.log('showNotification');
-    // const type = ['', 'info', 'success', 'warning', 'danger'];
-
     if (this.currentNotify) {
       this.currentNotify.close();
       this.currentNotify = null;
@@ -58,7 +56,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     this.loginAccessRequestService.getServerResponse$().subscribe((serverResponse: ServerResponseMyPoll) => {
 
       if (serverResponse.status === 'waiting-reponse') {
+        this.showLoading = true;
       } else if (serverResponse.status === 'success') {
+        this.showLoading = false;
         // check if is correct the login and password
         if (serverResponse.dataResponse.data.successfulLogin) {
           // correct should go to the dashboard with the user id
