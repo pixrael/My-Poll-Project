@@ -2,22 +2,25 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header card-header-info">
-                <h3 class="card-title">Insert login and password</h3>
+                <h3 class="card-title">Insert email and password</h3>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <mat-form-field class="example-full-width">
-                            <input [title]="title" matInput placeholder="Login" #loginInput>
-                        </mat-form-field>
-                        <mat-form-field class="example-full-width">
-                            <input [title]="title" type="password" matInput placeholder="Password" #passwordInput>
-                        </mat-form-field>
-                        <div class="card card-chart">
-                            <button mat-raised-button type="submit" class="btn btn-primary pull-right"
-                                [disabled]="isSaveButtonDisable" data-toggle="modal"
-                                (click)="onAccessButtonClick($event)">Access</button>
-                        </div>
+                        <form>
+
+                            <mat-form-field class="example-full-width">
+                                <input [title]="" matInput placeholder="Email" #loginInput>
+                            </mat-form-field>
+                            <mat-form-field class="example-full-width">
+                                <input [title]="" type="password" matInput placeholder="Password" #passwordInput>
+                            </mat-form-field>
+                            <div class="card card-chart">
+                                <button mat-raised-button type="submit" class="btn btn-primary pull-right"
+                                    [disabled]="false" data-toggle="modal"
+                                    (click)="onAccessButtonClick($event)">Access</button>
+                            </div>
+                        </form>
                         <!-- <div class="alert alert-info">
                             <span>This is a plain notification</span>
                         </div>

@@ -67,7 +67,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
         } else {
           // should show the message of wrong login or password
-          this.showNotification('top', 'right', 'Login or password invalid', 'warning');
+          this.showNotification('top', 'right', 'Email or password invalid', 'warning');
         }
       }
 
