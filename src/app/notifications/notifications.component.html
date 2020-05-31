@@ -17,7 +17,7 @@
                             <mat-form-field class="example-full-width">
                                 <input [title]="passwordTitle" type="password" matInput placeholder="Password"
                                     [ngClass]="{ 'error-input':isPasswordDirty && !isPasswordValid }"
-                                    (blur)="validatePassword('password',$event.target.value)" #passwordInput>
+                                    (blur)="validatePassword($event.target.value)" #passwordInput>
                             </mat-form-field>
                             <div class="card card-chart">
                                 <button mat-raised-button type="submit" class="btn btn-primary pull-right"

@@ -24,10 +24,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   private errorPasswordTitle = 'This is not a valid password';
 
   isEmailValid = false;
-  private isEmailDirty = false;
+  isEmailDirty = false;
 
   isPasswordValid = false;
-  private isPasswordDirty = false;
+  isPasswordDirty = false;
 
   isFormValid = false;
 
