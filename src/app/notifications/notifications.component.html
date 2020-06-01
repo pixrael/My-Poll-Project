@@ -7,18 +7,21 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <form>
+                        <form (ngSubmit)="onSubmit($event)">
 
                             <mat-form-field class="example-full-width">
-                                <input [title]="" matInput placeholder="Email" #loginInput>
+                                <input [title]="emailTitle" matInput placeholder="Email"
+                                    [ngClass]="{ 'error-input':isEmailDirty && !isEmailValid }" [title]="emailTitle"
+                                    (blur)="validateEmail($event.target.value)" #loginInput>
                             </mat-form-field>
                             <mat-form-field class="example-full-width">
-                                <input [title]="" type="password" matInput placeholder="Password" #passwordInput>
+                                <input [title]="passwordTitle" type="password" matInput placeholder="Password"
+                                    [ngClass]="{ 'error-input':isPasswordDirty && !isPasswordValid }"
+                                    (blur)="validatePassword($event.target.value)" #passwordInput>
                             </mat-form-field>
                             <div class="card card-chart">
                                 <button mat-raised-button type="submit" class="btn btn-primary pull-right"
-                                    [disabled]="false" data-toggle="modal"
-                                    (click)="onAccessButtonClick($event)">Access</button>
+                                    [disabled]="!isFormValid" data-toggle="modal">Access</button>
                             </div>
                         </form>
                         <!-- <div class="alert alert-info">

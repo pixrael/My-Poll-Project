@@ -17,6 +17,19 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   private currentNotify = null;
   private subscription = null;
   showLoading = false;
+  regexpEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  emailTitle = '';
+  passwordTitle = '';
+  private errorEmailTitle = 'This is not a valid email';
+  private errorPasswordTitle = 'This is not a valid password';
+
+  isEmailValid = false;
+  isEmailDirty = false;
+
+  isPasswordValid = false;
+  isPasswordDirty = false;
+
+  isFormValid = false;
 
   constructor(private loginAccessRequestService: LoginAccessRequestService,
     private loginStatusValidatorService: LoginStatusValidatorService) { }
@@ -74,18 +87,46 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     });
   }
 
-  onAccessButtonClick(event) {
-    const login = this.loginInput.nativeElement.value;
+  onSubmit(event) {
+
+    const email = this.loginInput.nativeElement.value;
     const password = this.passwordInput.nativeElement.value;
 
     this.loginAccessRequestService
-      .requestLogginAccess(login, password);
+      .requestLogginAccess(email, password);
+
   }
 
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  validateEmail(email: string) {
+    this.isEmailDirty = true;
+    this.isEmailValid = this.regexpEmail.test(email);
+
+    if (!this.isEmailValid) {
+      this.emailTitle = this.errorEmailTitle;
+    } else {
+      this.emailTitle = '';
+    }
+
+    this.isFormValid = this.isEmailValid && this.isPasswordValid;
+  }
+
+  validatePassword(password: string) {
+    this.isPasswordDirty = true;
+    this.isPasswordValid = password.length > 0;
+
+    if (!this.isPasswordValid) {
+      this.passwordTitle = this.errorPasswordTitle;
+    } else {
+      this.passwordTitle = '';
+    }
+
+    this.isFormValid = this.isEmailValid && this.isPasswordValid;
   }
 
 }
