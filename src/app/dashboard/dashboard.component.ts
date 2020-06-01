@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import * as Chartist from 'chartist';
-import { FormControl } from '@angular/forms';
+import { LoginStatusValidatorService } from 'app/services/login-status-validator.service';
 
 class ImageSnippet {
   constructor(public src: string, public file: File) { }
@@ -120,7 +120,9 @@ export class DashboardComponent implements OnInit {
   }];
 
 
-  constructor(private elementRef: ElementRef) { }
+  constructor(private elementRef: ElementRef, loginStatusValidatorService: LoginStatusValidatorService) {
+    loginStatusValidatorService.validateLoginStatus();
+  }
 
   clickInputToUploadImage(artItemIndex: number) {
     const inputToUploadImageHTML = this.elementRef.nativeElement.querySelector('#inpt' + artItemIndex);
