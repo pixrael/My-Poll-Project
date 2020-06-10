@@ -121,7 +121,7 @@ export class DashboardComponent implements OnInit {
 
 
   constructor(private elementRef: ElementRef, loginStatusValidatorService: LoginStatusValidatorService) {
-    loginStatusValidatorService.validateLoginStatus();
+    //  loginStatusValidatorService.validateLoginStatus();
   }
 
   clickInputToUploadImage(artItemIndex: number) {
