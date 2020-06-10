@@ -4,7 +4,9 @@
             <div class="col-md-6 poll-name-row">
                 <div class="card card-chart">
                     <mat-form-field class="example-full-width">
-                        <input [ngClass]="{ 'error-input':false  }" [title]="''" matInput placeholder="Add poll name">
+                        <input [ngClass]="{ 'error-input':!pollNameValidation.isValid && pollNameValidation.isDirty  }"
+                            [title]="pollNameValidation.titleMsg" matInput placeholder="Add poll name"
+                            (blur)="onPollNameInputBlur($event.target.value)">
                     </mat-form-field>
                 </div>
             </div>
