@@ -164,13 +164,13 @@ export class DashboardComponent implements OnInit {
 
   updateSaveButtosState() {
 
-    const itemsDirty = this.validationData
+    const itemsValid = this.validationData
       .filter(vData => (
-        vData.artist.isDirty && vData.artist.isValid &&
-        vData.date.isDirty && vData.date.isValid &&
+        vData.artist.isValid &&
+        vData.date.isValid &&
         vData.image.uploaded));
 
-    this.isSaveButtonDisable = itemsDirty.length < 2;
+    this.isSaveButtonDisable = (itemsValid.length < 2) || (!this.pollNameValidation.isValid);
   }
 
   startAnimationForLineChart(chart) {
@@ -243,6 +243,8 @@ export class DashboardComponent implements OnInit {
       this.pollNameValidation.titleMsg = '';
       this.pollNameValidation.isValid = true;
     }
+
+    this.updateSaveButtosState();
   }
 
   onBlur(fieldType: string, index: number, value: string) {
