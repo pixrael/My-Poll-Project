@@ -13,7 +13,7 @@ class ImageSnippet {
 })
 export class DashboardComponent implements OnInit {
 
-  regexpPollName = /^[a-zA-Z][a-zA-Z0-9_ ]{4,38}$/;
+  regexpPollName = /^[a-zA-Z][a-zA-Z0-9_ ]{4,39}$/;
   regexpTitle = /^[a-zA-Z0-9_ ]{1,20}$/;
   regexpArtist = /^[a-zA-Z@][a-zA-Z][a-zA-Z0-9_ ]{1,18}$/;
 
