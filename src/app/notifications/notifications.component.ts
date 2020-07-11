@@ -73,7 +73,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
       } else if (serverResponse.status === 'success') {
         this.showLoading = false;
         // check if is correct the login and password
-        if (serverResponse.dataResponse.data.successfulLogin) {
+        if (serverResponse.dataResponse.loggedUser) {
           // correct should go to the dashboard with the user id
           this.loginStatusValidatorService.setLoggingStatus(true);
           this.loginStatusValidatorService.validateLoginStatus();
