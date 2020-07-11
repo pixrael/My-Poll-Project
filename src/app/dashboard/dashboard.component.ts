@@ -13,6 +13,7 @@ class ImageSnippet {
 })
 export class DashboardComponent implements OnInit {
 
+  regexpPollName = /^[a-zA-Z][a-zA-Z0-9_ ]{4,39}$/;
   regexpTitle = /^[a-zA-Z0-9_ ]{1,20}$/;
   regexpArtist = /^[a-zA-Z@][a-zA-Z][a-zA-Z0-9_ ]{1,18}$/;
 
@@ -33,7 +34,7 @@ export class DashboardComponent implements OnInit {
   }];
 
   errorMsgs = {
-    artistError: 'Can start with letters or @.\nNumbers cant be added after @\nNumbers and letters are allowed from second characted ahead.\nWhite spaces are allowed.\nMax 20 of length.\nMin lenght 3.',
+    artistError: 'Can start with letters or @.\nNumbers cant be added after @\nNumbers and letters are allowed from second characted ahead.\nWhite spaces are allowed.\nMax 20 of length.\nMin length 3.',
     titleError: 'Letters and numbers are allowed. Max 20 of length.',
     dateError: 'Dates can not be after today. Please select a past date'
   };
@@ -119,6 +120,13 @@ export class DashboardComponent implements OnInit {
     }
   }];
 
+  pollNameErrorTitle = 'Can start only with letters. \nNumber can be added from second character ahead. \nWhite spaces are allowed. \nMin length 5. \nMax 40 of length,';
+
+  pollNameValidation = {
+    isValid: false,
+    isDirty: false,
+    titleMsg: ''
+  };
 
   constructor(private elementRef: ElementRef, loginStatusValidatorService: LoginStatusValidatorService) {
     loginStatusValidatorService.validateLoginStatus();
@@ -156,13 +164,13 @@ export class DashboardComponent implements OnInit {
 
   updateSaveButtosState() {
 
-    const itemsDirty = this.validationData
+    const itemsValid = this.validationData
       .filter(vData => (
-        vData.artist.isDirty && vData.artist.isValid &&
-        vData.date.isDirty && vData.date.isValid &&
+        vData.artist.isValid &&
+        vData.date.isValid &&
         vData.image.uploaded));
 
-    this.isSaveButtonDisable = itemsDirty.length < 2;
+    this.isSaveButtonDisable = (itemsValid.length < 2) || (!this.pollNameValidation.isValid);
   }
 
   startAnimationForLineChart(chart) {
@@ -222,6 +230,22 @@ export class DashboardComponent implements OnInit {
     seq2 = 0;
   }
   ngOnInit() { }
+
+  onPollNameInputBlur(value: string) {
+
+    this.pollNameValidation.isDirty = true;
+    const isValid = this.checkIfPollNameIsValid(value.trim());
+
+    if (!isValid) {
+      this.pollNameValidation.titleMsg = this.pollNameErrorTitle;
+      this.pollNameValidation.isValid = false;
+    } else {
+      this.pollNameValidation.titleMsg = '';
+      this.pollNameValidation.isValid = true;
+    }
+
+    this.updateSaveButtosState();
+  }
 
   onBlur(fieldType: string, index: number, value: string) {
     this.isSaveButtonDisable = true;
@@ -283,6 +307,12 @@ export class DashboardComponent implements OnInit {
 
     return today > new Date(fieldValue);
   }
+
+  private checkIfPollNameIsValid(fieldValue: string): boolean {
+    const test = this.regexpPollName.test(fieldValue);
+    return test;
+  }
+
 
   private checkIfTitleIsValid(fieldValue: string): boolean {
     const test = this.regexpTitle.test(fieldValue);

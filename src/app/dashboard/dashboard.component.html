@@ -1,7 +1,19 @@
 <div class="main-content">
     <div class="container-fluid">
         <div class="row">
+            <div class="col-md-6 poll-name-row">
+                <div class="card card-chart">
+                    <mat-form-field class="example-full-width">
+                        <input [ngClass]="{ 'error-input':!pollNameValidation.isValid && pollNameValidation.isDirty  }"
+                            [title]="pollNameValidation.titleMsg" matInput placeholder="Add poll name"
+                            (blur)="onPollNameInputBlur($event.target.value)">
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <!-- This is the list of images  -->
+
             <div class="col-md-4" *ngFor="let artItem of artItems;let artItemIndex = index;">
                 <div class="card card-chart">
                     <div class="card-header card-header-success upload-img-container">
