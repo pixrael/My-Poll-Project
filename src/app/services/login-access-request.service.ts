@@ -30,8 +30,6 @@ export class LoginAccessRequestService {
     const body = `{      "login":"${login}",      "password":"${password}",   }`;
 
     this.http.post(url, body).subscribe((response: any) => {
-      console.log('response from request ', response);
-
       if (response.status === 'success') {
         if (response.loggedUser === 'true') {
           this.serverResponseSource.next({
