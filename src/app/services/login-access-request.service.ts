@@ -26,7 +26,7 @@ export class LoginAccessRequestService {
   }
 
   requestLogginAccess(login: string, password: string) {
-    // TODO request post
+
     const body = `{      "login":"${login}",      "password":"${password}",   }`;
 
     this.http.post(url, body).subscribe((response: any) => {
@@ -56,8 +56,6 @@ export class LoginAccessRequestService {
 
         }
 
-
-
       } else {
 
         this.serverResponseSource.next({
@@ -66,47 +64,12 @@ export class LoginAccessRequestService {
         });
 
       }
-
-
     });
 
     this.serverResponseSource.next({
       status: 'waiting-reponse',
       dataResponse: null
     });
-
-
-    /*
-    // making the request
-
-    if (login === 'admin@gmail.com' && password === '1234') {
-      setTimeout(() => {
-        // receiving the server data for correct login and password
-        this.serverResponseSource.next({
-          status: 'success',
-          dataResponse: {
-            status: 'success',
-            data: { successfulLogin: true, userId: '000' }
-          }
-        });
-
-      }, 3000);
-
-    } else {
-      // receiving the server data for correct login and password
-      setTimeout(() => {
-        // receiving the server data for correct login and password
-        this.serverResponseSource.next({
-          status: 'success',
-          dataResponse: {
-            status: 'success',
-            data: { successfulLogin: false, userId: null, msg: 'invalid login or password' }
-          }
-        });
-
-      }, 1500);
-
-    } */
   }
 
 }
